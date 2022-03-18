@@ -2,6 +2,10 @@
 /dist
 /node_modules
 /.env
+/starter
+/prisma/dev.db
+/prisma/dev.db-journal
+/prisma/migrations
 
 # Logs
 logs
