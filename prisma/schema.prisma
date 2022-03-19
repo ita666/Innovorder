@@ -12,10 +12,12 @@ model User {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    email String
+    email String @unique
     password String
     firstName String
     lastName String
+
+    @@map("users")
 }
 
 model Product {
@@ -25,4 +27,6 @@ model Product {
 
     name String
     barCode String
+
+    @@map("products")
 }
