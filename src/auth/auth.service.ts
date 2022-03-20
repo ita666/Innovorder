@@ -1,5 +1,4 @@
 import {ForbiddenException, Injectable} from '@nestjs/common';
-import {User, Product} from '@prisma/client';
 import {PrismaService} from "../prisma/prisma.service";
 import {AuthDto, LoginDto} from "./dto";
 import * as argon from "argon2";
@@ -71,14 +70,13 @@ export class AuthService {
         return this.signToken(user.id, user.email);
     }
 
-    //No need to set function async as we return an async function
     async signToken(userId: number, email: string): Promise<{ access_token: string }> {
         const payload = {
             sub: userId,
             email
         }
         const token = await this.jwt.signAsync(payload, {
-            expiresIn: '15m',
+            // expiresIn: '15m',
             secret: this.config.get('JWT_KEY')
         });
 

@@ -10,3 +10,15 @@ async function bootstrap() {
   await app.listen(3000);
 }
 bootstrap();
+
+
+/*TODO:
+Add Error Handling + Logging
+Add Product Controller
+Add constants
+Perfect DTOs etc.
+Type Everything
+Docker if time
+
+Secure Product Route
+*/
