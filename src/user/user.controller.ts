@@ -11,6 +11,7 @@ import {JwtGuard} from "../auth/guard";
 import {GetUser} from "./decorator/get-user.decorator";
 import {User} from "@prisma/client";
 import {UserService} from "./user.service";
+import {UpdatedUserDto} from "./dto";
 
 @UseGuards(JwtGuard)
 @Controller('users')
@@ -37,7 +38,7 @@ export class UserController {
     editUser(
         @Param('id', ParseIntPipe) id: number,
         @Body() user: User
-    ): Promise<User> {
+    ): Promise<UpdatedUserDto> {
         return this.userService.updateUser(id, user);
     }
 }

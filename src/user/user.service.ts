@@ -3,6 +3,7 @@ import {PrismaService} from "../prisma/prisma.service";
 import {ConfigService} from "@nestjs/config";
 import {User} from "@prisma/client";
 import {AuthService} from "../auth/auth.service";
+import {UpdatedUserDto} from "./dto";
 
 @Injectable()
 export class UserService {
@@ -29,7 +30,7 @@ export class UserService {
     }
 
 
-    async updateUser(id: number, data: User): Promise<User> {
+    async updateUser(id: number, data: User): Promise<UpdatedUserDto> {
         const user = await this.prisma.user.findUnique({
             where: {
                 id: id
@@ -52,8 +53,7 @@ export class UserService {
         });
 
         const updatedToken = await this.authService.signToken(updatedUser.id, updatedUser.email);
-        updatedUser = {...updatedUser, ...updatedToken};
 
-        return updatedUser;
+        return new UpdatedUserDto(updatedUser.id, updatedUser.email, updatedUser.firstName, updatedUser.lastName, updatedToken.access_token);
     }
 }
