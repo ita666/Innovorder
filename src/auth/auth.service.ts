@@ -2,28 +2,23 @@ import {ForbiddenException, Injectable} from '@nestjs/common';
 import {PrismaService} from "../prisma/prisma.service";
 import {AuthDto, LoginDto} from "./dto";
 import * as argon from "argon2";
-import {PrismaClientKnownRequestError} from "@prisma/client/runtime";
 import {JwtService} from "@nestjs/jwt";
 import {ConfigService} from "@nestjs/config";
 
 
 @Injectable()
 export class AuthService {
-
-
     constructor(
         private prisma: PrismaService,
         private jwt: JwtService,
         private config: ConfigService
-    ) {
-    }
+    ) {}
 
     async signup(dto: AuthDto): Promise<{ access_token: string }> {
         //Generate Password Hash
         const hash = await argon.hash(dto.password);
 
         //Save new user in db
-        try {
             const user = await this.prisma.user.create({
                 data: {
                     email: dto.email,
@@ -39,14 +34,6 @@ export class AuthService {
 
             //Return saved user
             return this.signToken(user.id, user.email);
-
-        } catch (e) {
-            if (e instanceof PrismaClientKnownRequestError) {
-                if (e.code === 'P2002')
-                    throw new ForbiddenException('Credentials already taken')
-            }
-            throw e;
-        }
     }
 
     async login(dto: LoginDto): Promise<{ access_token: string }> {
