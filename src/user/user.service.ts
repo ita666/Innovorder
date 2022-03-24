@@ -4,6 +4,7 @@ import {ConfigService} from "@nestjs/config";
 import {User} from "@prisma/client";
 import {AuthService} from "../auth/auth.service";
 import {UpdatedUserDto} from "./dto";
+import {NON_EXISTING_USER_ERROR_MESSAGE} from "../exceptions/error-messages";
 
 @Injectable()
 export class UserService {
@@ -23,7 +24,7 @@ export class UserService {
         });
 
         if(!user)
-            throw new ForbiddenException("User doesn't exist");
+            throw new ForbiddenException(NON_EXISTING_USER_ERROR_MESSAGE);
 
         delete user.password;
         return user;
@@ -38,7 +39,7 @@ export class UserService {
         })
 
         if(!user)
-            throw new ForbiddenException("User doesn't exist");
+            throw new ForbiddenException(NON_EXISTING_USER_ERROR_MESSAGE);
 
         let updatedUser = await this.prisma.user.update({
             where:{

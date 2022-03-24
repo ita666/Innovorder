@@ -24,8 +24,6 @@ bootstrap();
 
 /*TODO:
 Add Error Logging
-Add Product Controller
-Add constants
 Perfect DTOs etc.
 Type Everything
 Docker if time

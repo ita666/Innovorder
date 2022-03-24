@@ -9,6 +9,7 @@ import { Request, Response } from 'express';
 @Catch(ForbiddenException)
 export class ForbiddenExceptionFilter implements ExceptionFilter {
     catch(exception: ForbiddenException, host: ArgumentsHost) {
+        console.log('forbidden')
         const ctx = host.switchToHttp();
         const response = ctx.getResponse<Response>();
         const request = ctx.getRequest<Request>();
@@ -20,7 +21,7 @@ export class ForbiddenExceptionFilter implements ExceptionFilter {
                 statusCode: status,
                 timestamp: new Date().toISOString(),
                 path: request.url,
-                message: "Vous avez merdé"
+                message: exception.message
             });
     }
 }
