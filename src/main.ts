@@ -8,27 +8,29 @@ import {
 import {
   PrismaExceptionFilter
 } from "./exceptions/filters/prisma-exception.filter";
+import {LoggingService} from "./utils/logging/logging.service";
+import helmet from "helmet";
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
-    logger: ['error']
-  });
+  const app = await NestFactory.create(AppModule);
+  const logger = app.get(LoggingService);
+  app.useLogger(logger);
+  app.use(helmet());
+  app.enableCors();
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true
   }));
-  app.useGlobalFilters(new HttpExceptionFilter(), new ForbiddenExceptionFilter(), new PrismaExceptionFilter())
+  app.useGlobalFilters(new HttpExceptionFilter(logger), new ForbiddenExceptionFilter(logger), new PrismaExceptionFilter(logger))
   await app.listen(3000);
 }
 bootstrap();
 
 
 /*TODO:
-Add Error Logging
+Tests
 Perfect DTOs etc.
 Type Everything
 Docker if time
-Helmet
-Cors
 Data Validation Joi
 Custom Passports?
 
