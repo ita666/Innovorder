@@ -10,6 +10,9 @@ import {
 import {JwtGuard} from "../auth/guard";
 import {ProductService} from "./product.service";
 import {Observable} from "rxjs";
+import {
+    OpenFoodFactsBenchmarkInterceptorInterceptor
+} from "../interceptors/openfoodfacts-benchmark.interceptor";
 
 @UseGuards(JwtGuard)
 @UseInterceptors(CacheInterceptor)

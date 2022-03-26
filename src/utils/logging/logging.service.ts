@@ -47,6 +47,7 @@ export class LoggingService implements LoggerService {
         process.on('unhandledRejection', (ex) => {
             throw ex;
         });
+
         if (process.env.NODE_ENV !== 'production') {
             this.logger.add(
                 new winston.transports.Console({
