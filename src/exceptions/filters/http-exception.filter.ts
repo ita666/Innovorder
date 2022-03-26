@@ -15,13 +15,13 @@ export class HttpExceptionFilter implements ExceptionFilter {
         const response = ctx.getResponse<Response>();
         const request = ctx.getRequest<Request>();
         const status = exception.getStatus();
-        console.log(exception.message)
         let message = exception.message;
 
         if(exception.message === INVALID_TOKEN_ERROR_MESSAGE) {
-            this.logger.error(INVALID_TOKEN_ERROR_MESSAGE);
             message = INVALID_TOKEN_ERROR_MESSAGE;
         }
+
+        this.logger.error(message);
 
         response
             .status(status)

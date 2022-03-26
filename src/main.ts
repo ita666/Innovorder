@@ -31,7 +31,7 @@ Tests
 Perfect DTOs etc.
 Type Everything
 Docker if time
-Data Validation Joi
+Data Validation Joi ----> ValidationPipe already for DTOs ---> JOI for database
 Custom Passports?
 
 Secure Product Route

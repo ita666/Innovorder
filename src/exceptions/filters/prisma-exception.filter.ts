@@ -34,6 +34,7 @@ export class PrismaExceptionFilter implements ExceptionFilter {
         }
 
         this.logger.error(message);
+
         response
             .status(HttpStatus.FORBIDDEN)
             .json({

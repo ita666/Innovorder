@@ -13,6 +13,7 @@ export class AuthController {
         return this.authService.signup(dto);
     }
 
+    //TODO a delete
     @HttpCode(HttpStatus.OK)
     @Post('login')
     logIn(@Body() dto: LoginDto): Promise<{ access_token: string }> {
