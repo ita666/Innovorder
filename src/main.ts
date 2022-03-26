@@ -6,11 +6,11 @@ import {
   HttpExceptionFilter
 } from "./exceptions/filters";
 import {
-  PrismaExceptionFilter
-} from "./exceptions/filters/prisma-exception.filter";
+  PrismaExceptionFilter,
+  JwtExceptionFilter
+} from "./exceptions/filters";
 import {LoggingService} from "./utils/logging/logging.service";
 import helmet from "helmet";
-import {JwtExceptionFilter} from "./exceptions/filters/jwt-exception.filter";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -29,11 +29,7 @@ bootstrap();
 
 /*TODO:
 Tests
-Perfect DTOs etc.
-Type Everything
 Docker if time
 Data Validation Joi ----> ValidationPipe already for DTOs ---> JOI for database
 Custom Passports?
-
-Secure Product Route
 */

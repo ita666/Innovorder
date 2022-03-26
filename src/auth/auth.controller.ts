@@ -1,4 +1,4 @@
-import {Body, Controller, HttpCode, HttpStatus, Post} from '@nestjs/common';
+import {Body, Controller, Post} from '@nestjs/common';
 import {AuthService} from "./auth.service";
 import {AuthDto, LoginDto} from "./dto";
 
@@ -13,8 +13,6 @@ export class AuthController {
         return this.authService.signup(dto);
     }
 
-    //TODO a delete
-    @HttpCode(HttpStatus.OK)
     @Post('login')
     logIn(@Body() dto: LoginDto): Promise<{ access_token: string }> {
         return this.authService.login(dto)
