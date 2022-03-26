@@ -10,6 +10,7 @@ import {
 } from "./exceptions/filters/prisma-exception.filter";
 import {LoggingService} from "./utils/logging/logging.service";
 import helmet from "helmet";
+import {JwtExceptionFilter} from "./exceptions/filters/jwt-exception.filter";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -20,7 +21,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true
   }));
-  app.useGlobalFilters(new HttpExceptionFilter(logger), new ForbiddenExceptionFilter(logger), new PrismaExceptionFilter(logger))
+  app.useGlobalFilters(new HttpExceptionFilter(logger), new ForbiddenExceptionFilter(logger), new PrismaExceptionFilter(logger), new JwtExceptionFilter(logger))
   await app.listen(3000);
 }
 bootstrap();
