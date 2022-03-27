@@ -1,6 +1,6 @@
 import {ForbiddenException, Injectable} from '@nestjs/common';
 import {PrismaService} from "../prisma/prisma.service";
-import {AuthDto, LoginDto} from "./dto";
+import {AuthDto, LogInDto} from "./dto";
 import * as argon from "argon2";
 import {JwtService} from "@nestjs/jwt";
 import {ConfigService} from "@nestjs/config";
@@ -14,7 +14,7 @@ export class AuthService {
         private config: ConfigService
     ) {}
 
-    async signup(dto: AuthDto): Promise<{ access_token: string }> {
+    async signUp(dto: AuthDto): Promise<{ access_token: string }> {
         const hash = await argon.hash(dto.password);
 
             const user = await this.prisma.user.create({
@@ -33,7 +33,7 @@ export class AuthService {
             return this.signToken(user.id, user.email);
     }
 
-    async login(dto: LoginDto): Promise<{ access_token: string }> {
+    async logIn(dto: LogInDto): Promise<{ access_token: string }> {
         const user = await this.prisma.user.findUnique({
             where: {
                 email: dto.email
