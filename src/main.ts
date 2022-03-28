@@ -28,8 +28,6 @@ bootstrap();
 
 
 /*TODO:
-Tests
-Add the descripes in tests
 Docker if time
 Data Validation Joi ----> ValidationPipe already for DTOs ---> JOI for database
 Custom Passports?
