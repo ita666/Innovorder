@@ -4,6 +4,7 @@ import {AuthDto, LogInDto} from "./dto";
 import * as argon from "argon2";
 import {JwtService} from "@nestjs/jwt";
 import {ConfigService} from "@nestjs/config";
+import {BAD_CREDENTIALS_ERROR_MESSAGE} from "../exceptions/error-messages";
 
 
 @Injectable()
@@ -40,12 +41,12 @@ export class AuthService {
             }
         })
         if (!user)
-            throw new ForbiddenException("Credentials incorrect");
+            throw new ForbiddenException(BAD_CREDENTIALS_ERROR_MESSAGE);
 
         const pwdMatches = await argon.verify(user.password, dto.password);
 
         if (!pwdMatches)
-            throw new ForbiddenException("Credentials incorrect");
+            throw new ForbiddenException(BAD_CREDENTIALS_ERROR_MESSAGE);
 
         return this.signToken(user.id, user.email);
     }

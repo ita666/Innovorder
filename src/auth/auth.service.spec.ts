@@ -7,6 +7,7 @@ import {JwtService} from "@nestjs/jwt";
 import {ConfigService} from "@nestjs/config";
 import {User} from "@prisma/client";
 import {ForbiddenException} from "@nestjs/common";
+import {BAD_CREDENTIALS_ERROR_MESSAGE} from "../exceptions/error-messages";
 
 describe('AuthService', () => {
     let service: AuthService;
@@ -32,7 +33,6 @@ describe('AuthService', () => {
         password: '12345',
         createdAt: new Date(Date.now()),
         updatedAt: new Date(Date.now())
-
     }
 
     const mockJwt = {
@@ -69,6 +69,7 @@ describe('AuthService', () => {
     };
 
     beforeEach(async () => {
+        jest.clearAllMocks();
         const module: TestingModule = await Test.createTestingModule({
             providers: [AuthService,
                 {
@@ -151,7 +152,7 @@ describe('AuthService', () => {
                 const result = await service.logIn(mockLoginDto);
                 expect(result).toThrow(ForbiddenException);
             } catch (e) {
-                expect(e).toStrictEqual(new ForbiddenException("Credentials incorrect"));
+                expect(e).toStrictEqual(new ForbiddenException(BAD_CREDENTIALS_ERROR_MESSAGE));
             }
         });
 
@@ -173,7 +174,7 @@ describe('AuthService', () => {
                 const result = await service.logIn(mockLoginDto);
                 expect(result).toThrow(ForbiddenException);
             } catch (e) {
-                expect(e).toStrictEqual(new ForbiddenException("Credentials incorrect"));
+                expect(e).toEqual(new ForbiddenException(BAD_CREDENTIALS_ERROR_MESSAGE));
             }
         });
 
