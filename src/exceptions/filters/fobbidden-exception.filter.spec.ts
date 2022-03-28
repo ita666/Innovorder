@@ -41,7 +41,7 @@ const mockArgumentsHost: ArgumentsHost = {
     switchToWs: jest.fn()
 };
 
-describe('System header validation service', () => {
+describe('Forbidden exception filter service', () => {
     let service: ForbiddenExceptionFilter;
 
     beforeEach(async () => {
@@ -58,26 +58,28 @@ describe('System header validation service', () => {
         service = module.get<ForbiddenExceptionFilter>(ForbiddenExceptionFilter);
     });
 
-    describe('Http exception filter tests', () => {
+    describe('Http exception filter', () => {
 
         it('should be defined', () => {
             expect(service).toBeDefined();
         });
 
-        it('should catch and log forbidden exception', () => {
-            service.catch(
-                new ForbiddenException('forbidden exception'),
-                mockArgumentsHost
-            );
-            expect(mockLoggerService.error).toHaveBeenCalled();
-            expect(mockLoggerService.error).toHaveBeenCalledWith('forbidden exception');
-            expect(mockHttpArgumentsHost).toBeCalledTimes(1);
-            expect(mockHttpArgumentsHost).toBeCalledWith();
-            expect(mockGetResponse).toBeCalledTimes(1);
-            expect(mockGetResponse).toBeCalledWith();
-            expect(mockStatus).toBeCalledTimes(1);
-            expect(mockStatus).toBeCalledWith(HttpStatus.FORBIDDEN);
-            expect(mockJson).toBeCalledTimes(1);
+        describe('Catch method', () => {
+            it('should catch and log forbidden exception', () => {
+                service.catch(
+                    new ForbiddenException('forbidden exception'),
+                    mockArgumentsHost
+                );
+                expect(mockLoggerService.error).toHaveBeenCalled();
+                expect(mockLoggerService.error).toHaveBeenCalledWith('forbidden exception');
+                expect(mockHttpArgumentsHost).toBeCalledTimes(1);
+                expect(mockHttpArgumentsHost).toBeCalledWith();
+                expect(mockGetResponse).toBeCalledTimes(1);
+                expect(mockGetResponse).toBeCalledWith();
+                expect(mockStatus).toBeCalledTimes(1);
+                expect(mockStatus).toBeCalledWith(HttpStatus.FORBIDDEN);
+                expect(mockJson).toBeCalledTimes(1);
+            });
         });
     });
 });

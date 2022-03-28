@@ -54,11 +54,13 @@ describe('ProductController', () => {
     expect(controller).toBeDefined();
   });
 
-  it('should return product data when provided a correct id', async () => {
-    const response = await controller.getProductById(1);
+  describe('GetProductById method', () => {
+    it('should return product data when provided a correct id', async () => {
+      const response = await controller.getProductById(1);
 
-    expect(mockProductService.getProductData).toHaveBeenCalled();
-    expect(response).toEqual(mockProduct);
+      expect(mockProductService.getProductData).toHaveBeenCalled();
+      expect(response).toEqual(mockProduct);
 
+    });
   });
 });

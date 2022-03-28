@@ -46,7 +46,7 @@ const mockArgumentsHost: ArgumentsHost = {
     switchToWs: jest.fn()
 };
 
-describe('System header validation service', () => {
+describe('Jwt exception filter service', () => {
     let service: PrismaExceptionFilter;
 
     beforeEach(async () => {
@@ -69,21 +69,23 @@ describe('System header validation service', () => {
             expect(service).toBeDefined();
         });
 
-        it(`should catch and log the exception with forbidden status in case of 
+        describe('Catch method', () => {
+            it(`should catch and log the exception with forbidden status in case of 
         unique constraing violation`, () => {
-            service.catch(
-                new PrismaClientKnownRequestError('Prisma exception', UNIQUE_CONSTRAINT_FAILURE_CODE, ''),
-                mockArgumentsHost
-            );
-            expect(mockLoggerService.error).toHaveBeenCalled();
-            expect(mockLoggerService.error).toHaveBeenCalledWith(CREDENTIALS_TAKEN_ERROR_MESSAGE);
-            expect(mockHttpArgumentsHost).toBeCalledTimes(1);
-            expect(mockHttpArgumentsHost).toBeCalledWith();
-            expect(mockGetResponse).toBeCalledTimes(1);
-            expect(mockGetResponse).toBeCalledWith();
-            expect(mockStatus).toBeCalledTimes(1);
-            expect(mockStatus).toBeCalledWith(HttpStatus.FORBIDDEN);
-            expect(mockJson).toBeCalledTimes(1);
+                service.catch(
+                    new PrismaClientKnownRequestError('Prisma exception', UNIQUE_CONSTRAINT_FAILURE_CODE, ''),
+                    mockArgumentsHost
+                );
+                expect(mockLoggerService.error).toHaveBeenCalled();
+                expect(mockLoggerService.error).toHaveBeenCalledWith(CREDENTIALS_TAKEN_ERROR_MESSAGE);
+                expect(mockHttpArgumentsHost).toBeCalledTimes(1);
+                expect(mockHttpArgumentsHost).toBeCalledWith();
+                expect(mockGetResponse).toBeCalledTimes(1);
+                expect(mockGetResponse).toBeCalledWith();
+                expect(mockStatus).toBeCalledTimes(1);
+                expect(mockStatus).toBeCalledWith(HttpStatus.FORBIDDEN);
+                expect(mockJson).toBeCalledTimes(1);
+            });
         });
     });
 });

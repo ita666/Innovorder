@@ -41,14 +41,16 @@ describe('ProductService', () => {
     expect(service).toBeDefined();
   });
 
-  it("should return a product if given a proper id", () => {
-    let response = '';
-    service.getProductData(1).subscribe(value => {
-      response = value;
-    });
+  describe('GetProductByData method', () => {
+    it("should return a product if given a proper id", () => {
+      let response = '';
+      service.getProductData(1).subscribe(value => {
+        response = value;
+      });
 
-    // expect(lastValueFrom(service.getProductData(1))).resolves.toEqual(mockProduct);
-    expect(response).toEqual(mockProduct);
-    expect(mockHttpService.get).toHaveBeenCalled();
+      // expect(lastValueFrom(service.getProductData(1))).resolves.toEqual(mockProduct);
+      expect(response).toEqual(mockProduct);
+      expect(mockHttpService.get).toHaveBeenCalled();
+    });
   });
 });

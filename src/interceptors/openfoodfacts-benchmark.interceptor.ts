@@ -4,7 +4,7 @@ import { tap } from 'rxjs/operators';
 import {LoggingService} from "../utils/logging/logging.service";
 
 @Injectable()
-export class OpenFoodFactsBenchmarkInterceptorInterceptor implements NestInterceptor {
+export class OpenFoodFactsBenchmarkInterceptor implements NestInterceptor {
 
     constructor(
         private logger: LoggingService

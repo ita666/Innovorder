@@ -33,6 +33,7 @@ describe('AuthController', () => {
     };
 
     beforeEach(async () => {
+        jest.clearAllMocks();
         const module: TestingModule = await Test.createTestingModule({
             controllers: [AuthController],
             providers: [
@@ -54,23 +55,28 @@ describe('AuthController', () => {
         expect(controller).toBeDefined();
     });
 
-    it('Should return a token after signUp', async () => {
-        // jest.spyOn(authService, 'signUp').mockImplementation((dto: AuthDto) => {
-        //     return Promise.resolve(mockJwt);
-        // })
-        const data = await controller.signUp(mockAuthDto);
+    describe('SignUp function', () => {
+        it('Should return a token after signUp', async () => {
+            // jest.spyOn(authService, 'signUp').mockImplementation((dto: AuthDto) => {
+            //     return Promise.resolve(mockJwt);
+            // })
+            const data = await controller.signUp(mockAuthDto);
 
-        expect(mockAuthService.signUp).toHaveBeenCalled();
-        expect(data).toEqual(mockJwt);
-    });
+            expect(mockAuthService.signUp).toHaveBeenCalled();
+            expect(data).toEqual(mockJwt);
+        });
+    })
 
-    it('Should return after login', async () => {
-        // jest.spyOn(authService, 'signUp').mockImplementation((dto: AuthDto) => {
-        //     return Promise.resolve(mockJwt);
-        // })
-        const data = await controller.logIn(mockLoginDto);
+    describe('Login function', () => {
+        it('Should return after login', async () => {
+            // jest.spyOn(authService, 'signUp').mockImplementation((dto: AuthDto) => {
+            //     return Promise.resolve(mockJwt);
+            // })
+            const data = await controller.logIn(mockLoginDto);
 
-        expect(mockAuthService.logIn).toHaveBeenCalled();
-        expect(data).toEqual(mockJwt);
-    });
+            expect(mockAuthService.logIn).toHaveBeenCalled();
+            expect(data).toEqual(mockJwt);
+        });
+    })
+
 });

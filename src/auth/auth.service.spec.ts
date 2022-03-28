@@ -98,98 +98,104 @@ describe('AuthService', () => {
         expect(service).toBeDefined();
     });
 
-    it('should return a token after signing up', async () => {
-        // Mock required methods
-        jest
-            .spyOn(Argon2, 'hash')
-            .mockImplementation((pwd) => {
-                return Promise.resolve(mockHashedPwd)
-            });
-        jest
-            .spyOn(service, 'signToken')
-            .mockImplementation((pwd) => {
-                return Promise.resolve(mockJwt)
-            });
-
-        //Call tested method
-        const result = await service.signUp(mockAuthDto);
-
-        //Assess results
-        expect(mockPrismaService.user.create).toHaveBeenCalled();
-        expect(service.signToken).toHaveBeenCalled();
-        expect(result).toEqual(mockJwt);
-
-    });
-
-    it('should return a token after logging in', async () => {
-        jest
-            .spyOn(Argon2, 'verify')
-            .mockImplementation(data => {
-                return Promise.resolve(true);
-            });
-        jest
-            .spyOn(service, 'signToken')
-            .mockImplementation((pwd) => {
-                return Promise.resolve(mockJwt)
-            });
-
-        const result = await service.logIn(mockLoginDto);
-
-        expect(service.signToken).toHaveBeenCalled();
-        expect(result).toEqual(mockJwt);
-
-    });
-
-    it(`should throw a ForbiddenException if user does not exist when logging in`
-        , async () => {
+    describe('SignUp function', () => {
+        it('should return a token after signing up', async () => {
+            // Mock required methods
             jest
-                .spyOn(prisma.user, 'findUnique')
-                .mockImplementation((data) => {
-                    return undefined;
+                .spyOn(Argon2, 'hash')
+                .mockImplementation((pwd) => {
+                    return Promise.resolve(mockHashedPwd)
+                });
+            jest
+                .spyOn(service, 'signToken')
+                .mockImplementation((pwd) => {
+                    return Promise.resolve(mockJwt)
                 });
 
-            try {
-                const result = await service.logIn(mockLoginDto);
-                expect(result).toThrow(ForbiddenException);
-            } catch (e) {
-                expect(e).toStrictEqual(new ForbiddenException(BAD_CREDENTIALS_ERROR_MESSAGE));
-            }
-        });
+            //Call tested method
+            const result = await service.signUp(mockAuthDto);
 
-    it(`should throw a ForbiddenException if password is wrong when logging in`,
-        async () => {
+            //Assess results
+            expect(mockPrismaService.user.create).toHaveBeenCalled();
+            expect(service.signToken).toHaveBeenCalled();
+            expect(result).toEqual(mockJwt);
+
+        });
+    })
+
+
+    describe('Login function', () => {
+        it('should return a token after logging in', async () => {
             jest
                 .spyOn(Argon2, 'verify')
                 .mockImplementation(data => {
-                    return Promise.resolve(false);
+                    return Promise.resolve(true);
                 });
             jest
-                .spyOn(prisma.user, 'findUnique')
-                // @ts-ignore
-                .mockImplementation((data) => {
-                    return Promise.resolve(mockPrismaUser);
+                .spyOn(service, 'signToken')
+                .mockImplementation((pwd) => {
+                    return Promise.resolve(mockJwt)
                 });
 
-            try {
-                const result = await service.logIn(mockLoginDto);
-                expect(result).toThrow(ForbiddenException);
-            } catch (e) {
-                expect(e).toEqual(new ForbiddenException(BAD_CREDENTIALS_ERROR_MESSAGE));
-            }
-        });
+            const result = await service.logIn(mockLoginDto);
 
-
-    it('should return a token when providing an email and userId',
-        async () => {
-            jest
-                .spyOn(mockJwtService, 'signAsync')
-                // @ts-ignore
-                .mockImplementation((data) => {
-                    return Promise.resolve(mockJwt.access_token);
-                });
-
-            const result = await service.signToken(mockPrismaUser.id, mockPrismaUser.email);
-            expect(mockJwtService.signAsync).toBeCalled();
+            expect(service.signToken).toHaveBeenCalled();
             expect(result).toEqual(mockJwt);
         });
-});
+
+        it(`should throw a ForbiddenException if user does not exist when logging in`
+            , async () => {
+                jest
+                    .spyOn(prisma.user, 'findUnique')
+                    .mockImplementation((data) => {
+                        return undefined;
+                    });
+
+                try {
+                    const result = await service.logIn(mockLoginDto);
+                    expect(result).toThrow(ForbiddenException);
+                } catch (e) {
+                    expect(e).toStrictEqual(new ForbiddenException(BAD_CREDENTIALS_ERROR_MESSAGE));
+                }
+            });
+
+        it(`should throw a ForbiddenException if password is wrong when logging in`,
+            async () => {
+                jest
+                    .spyOn(Argon2, 'verify')
+                    .mockImplementation(data => {
+                        return Promise.resolve(false);
+                    });
+                jest
+                    .spyOn(prisma.user, 'findUnique')
+                    // @ts-ignore
+                    .mockImplementation((data) => {
+                        return Promise.resolve(mockPrismaUser);
+                    });
+
+                try {
+                    const result = await service.logIn(mockLoginDto);
+                    expect(result).toThrow(ForbiddenException);
+                } catch (e) {
+                    expect(e).toEqual(new ForbiddenException(BAD_CREDENTIALS_ERROR_MESSAGE));
+                }
+            });
+    });
+
+    describe('SignToken function', () => {
+        it('should return a token when providing an email and userId',
+            async () => {
+                jest
+                    .spyOn(mockJwtService, 'signAsync')
+                    // @ts-ignore
+                    .mockImplementation((data) => {
+                        return Promise.resolve(mockJwt.access_token);
+                    });
+
+                const result = await service.signToken(mockPrismaUser.id, mockPrismaUser.email);
+                expect(mockJwtService.signAsync).toBeCalled();
+                expect(result).toEqual(mockJwt);
+            });
+    });
+})
+
