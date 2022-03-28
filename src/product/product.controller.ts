@@ -25,7 +25,7 @@ export class ProductController {
     @Get(':id')
     @CacheKey('offApiCalls')
     @CacheTTL(300)
-    GetProductById(@Param('id', ParseIntPipe) id: number): Observable<any> {
+    getProductById(@Param('id', ParseIntPipe) id: number): Observable<any> {
         return this.productService.getProductData(id);
     }
 }

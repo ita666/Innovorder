@@ -12,7 +12,7 @@ import {
     DATABASE_ERROR_MESSAGE
 } from "../error-messages";
 
-const UNIQUE_CONSTRAINT_FAILURE_CODE = 'P2002';
+export const UNIQUE_CONSTRAINT_FAILURE_CODE = 'P2002';
 
 @Catch(PrismaClientKnownRequestError)
 export class PrismaExceptionFilter implements ExceptionFilter {

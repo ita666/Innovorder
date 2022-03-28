@@ -1,6 +1,5 @@
 import { ExceptionFilter, Catch, ArgumentsHost, HttpException } from '@nestjs/common';
 import { Request, Response } from 'express';
-import {INVALID_TOKEN_ERROR_MESSAGE} from "../error-messages";
 import {LoggingService} from "../../utils/logging/logging.service";
 
 @Catch(HttpException)
@@ -16,10 +15,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
         const request = ctx.getRequest<Request>();
         const status = exception.getStatus();
         let message = exception.message;
-
-        if(exception.message === INVALID_TOKEN_ERROR_MESSAGE) {
-            message = INVALID_TOKEN_ERROR_MESSAGE;
-        }
 
         this.logger.error(message);
 

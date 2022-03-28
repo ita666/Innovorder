@@ -1,7 +1,6 @@
 import {Injectable, LoggerService} from '@nestjs/common';
 import * as winston from "winston";
 import {ConfigService} from "@nestjs/config";
-import path from "path";
 
 @Injectable()
 export class LoggingService implements LoggerService {
@@ -24,8 +23,9 @@ export class LoggingService implements LoggerService {
                 winston.format.timestamp(),
                 myFormat),
             transports: [
+                //TODO: Delete dir
                 new winston.transports.File({
-                    dirname: path.join(__dirname, './../log/debug/'),
+                    // dirname: path.join(__dirname, './../log/debug/'),
                     filename: 'logs/debug.log',
                     level: 'debug'
                 }),
@@ -34,7 +34,7 @@ export class LoggingService implements LoggerService {
                     level: 'error'
                 }),
                 new winston.transports.File({
-                    dirname: path.join(__dirname, './../log/info/'),
+                    // dirname: path.join(__dirname, './../log/info/'),
                     filename: 'logs/info.log',
                     level: 'info'
                 })

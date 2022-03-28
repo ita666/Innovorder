@@ -57,8 +57,8 @@ describe('AuthService', () => {
     };
 
     const mockJwtService = {
-        signAsync: jest.fn().mockImplementation(data => {
-            Promise.resolve(mockJwt);
+        signAsync: jest.fn().mockImplementation(() => {
+            Promise.resolve(mockJwt.access_token);
         })
     };
 
@@ -180,11 +180,15 @@ describe('AuthService', () => {
 
     it('should return a token when providing an email and userId',
         async () => {
-            const result = await service.signToken(mockPrismaUser.id, mockPrismaUser.email);
+            jest
+                .spyOn(mockJwtService, 'signAsync')
+                // @ts-ignore
+                .mockImplementation((data) => {
+                    return Promise.resolve(mockJwt.access_token);
+                });
 
+            const result = await service.signToken(mockPrismaUser.id, mockPrismaUser.email);
             expect(mockJwtService.signAsync).toBeCalled();
-            const token = await mockJwtService.signAsync();
-            // console.log(token)
-            // expect(token).toEqual(mockJwt);
+            expect(result).toEqual(mockJwt);
         });
 });

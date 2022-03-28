@@ -13,7 +13,8 @@ export class ProductService {
     ) {}
 
     getProductData(id: number): Observable<any> {
-        return this.http.get(this.API_PRODUCT_URL + id + this.JSON_EXTENSION).pipe(
+        return this.http.get(this.API_PRODUCT_URL + id + this.JSON_EXTENSION)
+            .pipe(
             map(value => value.data)
         );
     }
