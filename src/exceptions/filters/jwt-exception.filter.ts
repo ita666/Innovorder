@@ -7,6 +7,7 @@ import {
 import { Request, Response } from 'express';
 import {LoggingService} from "../../utils/logging/logging.service";
 import {JsonWebTokenError} from "jsonwebtoken";
+import {INVALID_TOKEN_ERROR_MESSAGE} from "../error-messages";
 
 @Catch(JsonWebTokenError)
 export class JwtExceptionFilter implements ExceptionFilter {
@@ -29,7 +30,7 @@ export class JwtExceptionFilter implements ExceptionFilter {
                 statusCode: (HttpStatus.UNAUTHORIZED),
                 timestamp: new Date().toISOString(),
                 path: request.url,
-                message
+                message: INVALID_TOKEN_ERROR_MESSAGE
             });
     }
 }
