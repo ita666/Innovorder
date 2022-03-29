@@ -7,7 +7,7 @@ import {User} from "@prisma/client";
 import {NON_EXISTING_USER_ERROR_MESSAGE} from "../../exceptions/error-messages";
 
 export const GetUser = createParamDecorator(
-    (data: string, ctx: ExecutionContext): User => {
+    (data: string, ctx: ExecutionContext): User | any => {
         const request = ctx.switchToHttp().getRequest();
         if(!request.user){
             throw new ForbiddenException(NON_EXISTING_USER_ERROR_MESSAGE);

@@ -21,7 +21,7 @@ export class PrismaExceptionFilter implements ExceptionFilter {
         private logger: LoggingService
     ) {}
 
-    catch(exception: PrismaClientKnownRequestError, host: ArgumentsHost) {
+    catch(exception: PrismaClientKnownRequestError, host: ArgumentsHost): void {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse<Response>();
         const request = ctx.getRequest<Request>();

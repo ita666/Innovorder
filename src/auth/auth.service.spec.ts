@@ -35,35 +35,35 @@ describe('AuthService', () => {
         updatedAt: new Date(Date.now())
     }
 
-    const mockJwt = {
+    const mockJwt: {access_token: string} = {
         access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
     };
 
-    const mockHashedPwd = "eervancomneormgvjaope54r4fr";
+    const mockHashedPwd: string = "eervancomneormgvjaope54r4fr";
 
     const mockPrismaService = {
         user: {
-            create: jest.fn().mockImplementation((data) => {
+            create: jest.fn().mockImplementation((): {id: string, email: string} => {
                 return {
                     id: '145454e6f45e',
                     email: 'created@email.com'
                 };
             }),
             findUnique: jest.fn().mockImplementation(
-                (data) => {
+                (data): Promise<User> => {
                     return Promise.resolve(mockPrismaUser);
                 })
         }
     };
 
     const mockJwtService = {
-        signAsync: jest.fn().mockImplementation(() => {
-            Promise.resolve(mockJwt.access_token);
+        signAsync: jest.fn().mockImplementation((): Promise<string> => {
+            return Promise.resolve(mockJwt.access_token);
         })
     };
 
     const mockConfig = {
-        get: jest.fn().mockImplementation(jwtKey => {
+        get: jest.fn().mockImplementation((): string => {
             return 'secretKey';
         })
     };
@@ -90,9 +90,6 @@ describe('AuthService', () => {
         prisma = module.get<PrismaService>(PrismaService);
     });
 
-    afterEach(() => {
-        jest.clearAllMocks();
-    })
 
     it('should be defined', () => {
         expect(service).toBeDefined();
@@ -169,7 +166,7 @@ describe('AuthService', () => {
                 jest
                     .spyOn(prisma.user, 'findUnique')
                     // @ts-ignore
-                    .mockImplementation((data) => {
+                    .mockImplementation(() => {
                         return Promise.resolve(mockPrismaUser);
                     });
 
@@ -188,7 +185,7 @@ describe('AuthService', () => {
                 jest
                     .spyOn(mockJwtService, 'signAsync')
                     // @ts-ignore
-                    .mockImplementation((data) => {
+                    .mockImplementation(() => {
                         return Promise.resolve(mockJwt.access_token);
                     });
 

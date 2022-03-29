@@ -5,12 +5,11 @@ import {EditUserDto, UpdatedUserDto} from "./dto";
 import {JwtGuard} from "../auth/guard";
 import {UserService} from "./user.service";
 import {GetUser} from "./decorator";
-import {use} from "passport";
 
 describe('ServiceController', () => {
   let controller: UserController;
 
-  const mockJwt = {
+  const mockJwt: {access_token: string} = {
     access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
   };
 
@@ -63,8 +62,8 @@ describe('ServiceController', () => {
         .useValue(mockUserService)
         .overrideGuard(JwtGuard)
         .useValue(mockJwtGuard)
-        // .overrideProvider(GetUser)
-        // .useValue(mockGetUser)
+        .overrideProvider(GetUser)
+        .useValue(mockGetUser)
         .compile();
 
     controller = module.get<UserController>(UserController);

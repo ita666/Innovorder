@@ -5,6 +5,7 @@ import * as argon from "argon2";
 import {JwtService} from "@nestjs/jwt";
 import {ConfigService} from "@nestjs/config";
 import {BAD_CREDENTIALS_ERROR_MESSAGE} from "../exceptions/error-messages";
+import {User} from "@prisma/client";
 
 
 @Injectable()
@@ -18,7 +19,7 @@ export class AuthService {
     async signUp(dto: AuthDto): Promise<{ access_token: string }> {
         const hash = await argon.hash(dto.password);
 
-            const user = await this.prisma.user.create({
+            const user: {id: number, email: string} = await this.prisma.user.create({
                 data: {
                     email: dto.email,
                     password: hash,
@@ -35,7 +36,7 @@ export class AuthService {
     }
 
     async logIn(dto: LogInDto): Promise<{ access_token: string }> {
-        const user = await this.prisma.user.findUnique({
+        const user: User = await this.prisma.user.findUnique({
             where: {
                 email: dto.email
             }
@@ -43,7 +44,7 @@ export class AuthService {
         if (!user)
             throw new ForbiddenException(BAD_CREDENTIALS_ERROR_MESSAGE);
 
-        const pwdMatches = await argon.verify(user.password, dto.password);
+        const pwdMatches: boolean = await argon.verify(user.password, dto.password);
 
         if (!pwdMatches)
             throw new ForbiddenException(BAD_CREDENTIALS_ERROR_MESSAGE);
@@ -52,11 +53,11 @@ export class AuthService {
     }
 
     async signToken(userId: number, email: string): Promise<{ access_token: string }> {
-        const payload = {
+        const payload: {sub: number, email: string} = {
             sub: userId,
             email
         }
-        const token = await this.jwt.signAsync(payload, {
+        const token: string = await this.jwt.signAsync(payload, {
             // expiresIn: '15m',
             secret: this.config.get('JWT_KEY')
         });

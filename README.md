@@ -73,6 +73,50 @@ LOGGER_LEVEL="error
 ```
 
 
+## Routes
+
+### Users
+
+Returns the information about the current user
+```
+GET users/me    JWT-PROTECTED
+```
+Returns the information about the user corresponding to the '@id' param
+
+**@Param - id: string**
+```
+GET users/:id   JWT-PROTECTED
+```
+Updates the User corresponding to the '@id' param
+
+**@Param - id: string**
+
+**@Body: EditUserDto**
+```
+PATCH users/:id JWT-PROTECTED
+```
+
+### Auth
+_Creates a user in the database and returns a jwt token_
+
+**@Param - dto: AuthDto**
+```
+POST auth/signup
+```
+_Logs in a user and returns a jwt token if email & password are correct_
+
+**@Param - dto: AuthDto**
+```
+POST auth/login
+```
+
+### Products
+_Returns the information about the product corresponding to the '@id' param  |   Cached for 5 minutes with key: 'offApiCalls'_
+```
+GET products/:id    JWT-PROTECTED
+```
+
+
 ## License
 
-Nest is [MIT licensed](LICENSE).
+Nest is [MIT licensed].

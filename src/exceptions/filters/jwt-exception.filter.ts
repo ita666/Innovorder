@@ -16,7 +16,7 @@ export class JwtExceptionFilter implements ExceptionFilter {
         private logger: LoggingService
     ) {}
 
-    catch(exception: JsonWebTokenError, host: ArgumentsHost) {
+    catch(exception: JsonWebTokenError, host: ArgumentsHost): void {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse<Response>();
         const request = ctx.getRequest<Request>();

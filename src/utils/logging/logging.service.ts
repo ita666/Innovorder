@@ -13,30 +13,21 @@ export class LoggingService implements LoggerService {
 
 
     initializeLogger() {
-        const myFormat = winston.format.printf(({ level, message, timestamp }) => {
+        const loggerLevel = this.config.get("LOGGER_LEVEL");
+
+        const appFormat = winston.format.printf(({ level, message, timestamp }) => {
             return `${timestamp} ${level}: ${message}`;
         });
 
         this.logger = winston.createLogger({
-            level: this.config.get("LOGGER_LEVEL"),
+            level: loggerLevel,
             format: winston.format.combine(
                 winston.format.timestamp(),
-                myFormat),
+                appFormat),
             transports: [
-                //TODO: Delete dir
                 new winston.transports.File({
-                    // dirname: path.join(__dirname, './../log/debug/'),
-                    filename: 'logs/debug.log',
-                    level: 'debug'
-                }),
-                new winston.transports.File({
-                    filename: 'logs/error.log',
+                    filename: `logs/${loggerLevel}.log`,
                     level: 'error'
-                }),
-                new winston.transports.File({
-                    // dirname: path.join(__dirname, './../log/info/'),
-                    filename: 'logs/info.log',
-                    level: 'info'
                 })
             ],
             exceptionHandlers: [
@@ -58,15 +49,15 @@ export class LoggingService implements LoggerService {
         }
     }
 
-    error(message: string) {
+    error(message: string): void {
         this.logger.error(message);
     }
 
-    warn(message: string) {
+    warn(message: string): void {
         this.logger.warn(message);
     }
 
-    log(message: string) {
+    log(message: string): void {
         this.logger.info(message);
     }
 }

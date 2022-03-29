@@ -9,7 +9,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
         private logger: LoggingService
     ) {}
 
-    catch(exception: HttpException, host: ArgumentsHost) {
+    catch(exception: HttpException, host: ArgumentsHost): void {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse<Response>();
         const request = ctx.getRequest<Request>();

@@ -44,7 +44,7 @@ const mockArgumentsHost: ArgumentsHost = {
 describe('Forbidden exception filter service', () => {
     let service: ForbiddenExceptionFilter;
 
-    beforeEach(async () => {
+    beforeEach(async (): Promise<void> => {
         jest.clearAllMocks();
         const module: TestingModule = await Test.createTestingModule({
             providers: [

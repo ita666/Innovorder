@@ -39,7 +39,7 @@ export class UserService {
         if(!user)
             throw new ForbiddenException(NON_EXISTING_USER_ERROR_MESSAGE);
 
-        let updatedUser = await this.prisma.user.update({
+        let updatedUser: User = await this.prisma.user.update({
             where:{
                 id: id
             },
@@ -50,7 +50,7 @@ export class UserService {
                 lastName: data.lastName
             }
         });
-        const updatedToken = await this.authService.signToken(updatedUser.id, updatedUser.email);
+        const updatedToken: {access_token: string} = await this.authService.signToken(updatedUser.id, updatedUser.email);
 
         return new UpdatedUserDto(updatedUser.id, updatedUser.email, updatedUser.firstName, updatedUser.lastName, updatedToken.access_token);
     }

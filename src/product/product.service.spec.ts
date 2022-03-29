@@ -48,8 +48,7 @@ describe('ProductService', () => {
         response = value;
       });
 
-      // expect(lastValueFrom(service.getProductData(1))).resolves.toEqual(mockProduct);
-      expect(response).toEqual(mockProduct);
+      expect(lastValueFrom(service.getProductData(1))).resolves.toEqual(mockProduct);
       expect(mockHttpService.get).toHaveBeenCalled();
     });
   });

@@ -9,10 +9,10 @@ describe('AuthController', () => {
 
     const mockAuthService = {
         signUp: jest.fn((dto) => {
-            return mockJwt
+            return Promise.resolve(mockJwt);
         }),
         logIn: jest.fn((dto) => {
-            return mockJwt
+            return Promise.resolve(mockJwt);
         })
     };
 
@@ -28,11 +28,11 @@ describe('AuthController', () => {
         password: '12345',
     };
 
-    const mockJwt = {
+    const mockJwt: {access_token: string} = {
         access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
     };
 
-    beforeEach(async () => {
+    beforeEach(async (): Promise<void> => {
         jest.clearAllMocks();
         const module: TestingModule = await Test.createTestingModule({
             controllers: [AuthController],
@@ -57,9 +57,6 @@ describe('AuthController', () => {
 
     describe('SignUp function', () => {
         it('Should return a token after signUp', async () => {
-            // jest.spyOn(authService, 'signUp').mockImplementation((dto: AuthDto) => {
-            //     return Promise.resolve(mockJwt);
-            // })
             const data = await controller.signUp(mockAuthDto);
 
             expect(mockAuthService.signUp).toHaveBeenCalled();
@@ -69,9 +66,6 @@ describe('AuthController', () => {
 
     describe('Login function', () => {
         it('Should return after login', async () => {
-            // jest.spyOn(authService, 'signUp').mockImplementation((dto: AuthDto) => {
-            //     return Promise.resolve(mockJwt);
-            // })
             const data = await controller.logIn(mockLoginDto);
 
             expect(mockAuthService.logIn).toHaveBeenCalled();

@@ -14,7 +14,7 @@ export class ForbiddenExceptionFilter implements ExceptionFilter {
         private logger: LoggingService
     ) {}
 
-    catch(exception: ForbiddenException, host: ArgumentsHost) {
+    catch(exception: ForbiddenException, host: ArgumentsHost): void {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse<Response>();
         const request = ctx.getRequest<Request>();

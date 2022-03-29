@@ -10,10 +10,10 @@ import {EditUserDto, UpdatedUserDto} from "./dto";
 describe('UserService', () => {
   let service: UserService;
 
-  const existingId = 15487465;
-  const nonExistingId = 0;
+  const existingId: number = 15487465;
+  const nonExistingId: number = 0;
 
-  const mockJwt = {
+  const mockJwt: {access_token: string} = {
     access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
   };
 
@@ -42,7 +42,7 @@ describe('UserService', () => {
     updatedAt: new Date(Date.now())
   }
 
-  const getIdFromArgs = (id: any) => {
+  const getIdFromArgs = (id: any): number => {
     return id.where.id;
   }
 
