@@ -123,8 +123,8 @@ auth/login
 ```
 
 ### Products
-_Returns the information about the product corresponding to the @id param  |   Cached for 5 minutes with key: 'offApiCalls - <id>'_
-```http request
+_Returns the information about the product corresponding to the @id param  |   Cached for 5 minutes with key: 'offApiCalls - id'_
+```
 # GET
 # JWT-PROTECTED
 # @Param - {id: string}
