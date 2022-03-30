@@ -68,9 +68,12 @@ The app will not work without these variables, please populate them accordingly
 
 These variables should be set in a '.env' file at the source of the project, and in a '.env.test' file for test-related environment variables
 
+Below, an example of these variables:
 ```dotenv
+# MySQL database URL with correct syntax
 DATABASE_URL="mysql://<user>:<password>@localhost:3306/<database>"
 
+# Key used to hash Jwt
 JWT_KEY="<secret-key>"
 
 # Possible values: "error", "warn", "info", "debug"
@@ -98,7 +101,7 @@ Returns the information about the user corresponding to the 'id' param
 
 users/:id
 ```
-Updates the User corresponding to the 'id' param
+Updates the User corresponding to the 'id' param, returns the updated user data including a new token
 
 ```
 # PATCH
