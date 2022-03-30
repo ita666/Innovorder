@@ -25,9 +25,3 @@ async function bootstrap() {
   await app.listen(3000);
 }
 bootstrap();
-
-/*TODO:
-Check imports
-Bien faire le readme (variables)
-CACHING !
-*/

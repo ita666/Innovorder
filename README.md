@@ -64,12 +64,12 @@ Please find them below with example values
 
 These variables should be set in a '.env' file at the source of the project, and in a '.env.test' file for test-related environment variables
 
-```
+```json
 DATABASE_URL="mysql://<user>:<password>@localhost:3306/innovorder"
 
 JWT_KEY="secret-key"
 
-LOGGER_LEVEL="error
+LOGGER_LEVEL="error"
 ```
 
 
@@ -78,42 +78,58 @@ LOGGER_LEVEL="error
 ### Users
 
 Returns the information about the current user
-```
-GET users/me    JWT-PROTECTED
+```http request
+# GET
+# JWT-PROTECTED
+
+users/me
 ```
 Returns the information about the user corresponding to the 'id' param
 
-```
-@Param - id: string
-GET users/:id   JWT-PROTECTED
+```http request
+# GET
+# JWT-PROTECTED
+# @Param - id: string
+
+users/:id
 ```
 Updates the User corresponding to the 'id' param
 
-```
-@Param - id: string
-@Body - EditUserDto
+```http request
+# PATCH
+# JWT-PROTECTED
+# @Param - id: string
+# @Body - (optional params) {email: string, firstName: string, lastName: string, password: string}
 
-PATCH users/:id JWT-PROTECTED
+users/:id
 ```
 
 ### Auth
 _Creates a user in the database and returns a jwt token_
 
-```
-@Param - dto: AuthDto
-POST auth/signup
+```http request
+# POST
+# @Param - {email: string, firstName: string, lastName: string, password: string}
+
+auth/signup
 ```
 _Logs in a user and returns a jwt token if email & password are correct_
 
-```
-@Param - dto: AuthDto
-POST auth/login
+```http request
+# POST
+# @Param - {email: string, password: string}
+
+auth/login
 ```
 
 ### Products
-_Returns the information about the product corresponding to the '@id' param  |   Cached for 5 minutes with key: 'offApiCalls'_
-```
-GET products/:id    JWT-PROTECTED
+_Returns the information about the product corresponding to the @id param  |   Cached for 5 minutes with key: 'offApiCalls - <id>'_
+```http request
+# GET
+# JWT-PROTECTED
+# @Param - {id: string}
+
+products/:id
 ```
 
 

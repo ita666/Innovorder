@@ -1,19 +1,12 @@
 import {
-    CACHE_MANAGER,
-    CacheTTL,
     Controller,
     Get,
-    Inject,
     Param,
     ParseIntPipe,
     UseGuards
 } from '@nestjs/common';
 import {JwtGuard} from "../auth/guard";
 import {ProductService} from "./product.service";
-import {Cache} from "cache-manager";
-import {
-    ProductNotFoundException
-} from "../exceptions/custom-exceptions/ProductNotFound.exception";
 
 @UseGuards(JwtGuard)
 @Controller('products')

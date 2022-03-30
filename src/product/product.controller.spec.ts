@@ -1,12 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProductController } from './product.controller';
 import {ProductService} from "./product.service";
-import {CacheInterceptor} from "@nestjs/common";
 import {JwtGuard} from "../auth/guard";
-import {firstValueFrom} from "rxjs";
-import {
-  ProductNotFoundException
-} from "../exceptions/custom-exceptions/ProductNotFound.exception";
 
 describe('ProductController', () => {
   let controller: ProductController;
@@ -26,10 +21,6 @@ describe('ProductController', () => {
 
   const mockProductService = {
     getProductData: jest.fn().mockResolvedValue(mockProduct)
-  }
-
-  const mockCacheInterceptor = {
-
   }
 
   const mockJwtGuard = {
