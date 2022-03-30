@@ -78,7 +78,7 @@ LOGGER_LEVEL="error"
 ### Users
 
 Returns the information about the current user
-```http request
+```
 # GET
 # JWT-PROTECTED
 
@@ -86,7 +86,7 @@ users/me
 ```
 Returns the information about the user corresponding to the 'id' param
 
-```http request
+```
 # GET
 # JWT-PROTECTED
 # @Param - id: string
@@ -95,7 +95,7 @@ users/:id
 ```
 Updates the User corresponding to the 'id' param
 
-```http request
+```
 # PATCH
 # JWT-PROTECTED
 # @Param - id: string
@@ -107,7 +107,7 @@ users/:id
 ### Auth
 _Creates a user in the database and returns a jwt token_
 
-```http request
+```
 # POST
 # @Param - {email: string, firstName: string, lastName: string, password: string}
 
@@ -115,7 +115,7 @@ auth/signup
 ```
 _Logs in a user and returns a jwt token if email & password are correct_
 
-```http request
+```
 # POST
 # @Param - {email: string, password: string}
 
