@@ -131,7 +131,7 @@ auth/login
 ```
 
 ### Products
-_Returns the information about the product corresponding to the @id param  |   Cached for 5 minutes with key: 'offApiCalls - id'_
+_Returns the information about the product corresponding to the @id param, id representing the product's bar code  |  Cached for 5 minutes with key: 'offApiCalls - id'_
 ```
 # GET
 # JWT-PROTECTED
