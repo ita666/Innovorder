@@ -20,7 +20,11 @@ $ npm install
 ```
 
 ## Database SetUp
-This API runs on a MySQL Database
+This API runs on a MySQL Database - the syntax for MySQL database URL is:
+
+```html
+mysql://<user>:<password>@localhost:3306/<database-name>
+```
 
 First generate the database tables by running the command
 ```bash
@@ -60,16 +64,17 @@ $ npm run test:cov
 
 ## Environment Variables
 This project requires some environment variables in order to function -
-Please find them below with example values
+The app will not work without these variables, please populate them accordingly
 
 These variables should be set in a '.env' file at the source of the project, and in a '.env.test' file for test-related environment variables
 
 ```dotenv
-DATABASE_URL="mysql://<user>:<password>@localhost:3306/innovorder"
+DATABASE_URL="mysql://<user>:<password>@localhost:3306/<database>"
 
-JWT_KEY="secret-key"
+JWT_KEY="<secret-key>"
 
-LOGGER_LEVEL="error"
+# Possible values: "error", "warn", "info", "debug"
+LOGGER_LEVEL="<value>"
 ```
 
 
