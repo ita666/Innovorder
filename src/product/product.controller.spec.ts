@@ -3,6 +3,10 @@ import { ProductController } from './product.controller';
 import {ProductService} from "./product.service";
 import {CacheInterceptor} from "@nestjs/common";
 import {JwtGuard} from "../auth/guard";
+import {firstValueFrom} from "rxjs";
+import {
+  ProductNotFoundException
+} from "../exceptions/custom-exceptions/ProductNotFound.exception";
 
 describe('ProductController', () => {
   let controller: ProductController;
@@ -21,9 +25,7 @@ describe('ProductController', () => {
 
 
   const mockProductService = {
-    getProductData: jest.fn().mockImplementation(args => {
-      return mockProduct;
-    })
+    getProductData: jest.fn().mockResolvedValue(mockProduct)
   }
 
   const mockCacheInterceptor = {
@@ -41,8 +43,6 @@ describe('ProductController', () => {
     })
         .overrideProvider(ProductService)
         .useValue(mockProductService)
-        .overrideInterceptor(CacheInterceptor)
-        .useValue(mockCacheInterceptor)
         .overrideGuard(JwtGuard)
         .useValue(mockJwtGuard)
         .compile();

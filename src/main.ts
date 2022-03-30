@@ -29,4 +29,5 @@ bootstrap();
 /*TODO:
 Check imports
 Bien faire le readme (variables)
+CACHING !
 */

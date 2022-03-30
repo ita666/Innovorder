@@ -1,21 +1,21 @@
 import {
-    CacheInterceptor,
-    CacheKey, CacheTTL,
+    CACHE_MANAGER,
+    CacheTTL,
     Controller,
     Get,
+    Inject,
     Param,
     ParseIntPipe,
-    UseGuards, UseInterceptors
+    UseGuards
 } from '@nestjs/common';
 import {JwtGuard} from "../auth/guard";
 import {ProductService} from "./product.service";
-import {Observable} from "rxjs";
+import {Cache} from "cache-manager";
 import {
-    OpenFoodFactsBenchmarkInterceptor
-} from "../interceptors/openfoodfacts-benchmark.interceptor";
+    ProductNotFoundException
+} from "../exceptions/custom-exceptions/ProductNotFound.exception";
 
 @UseGuards(JwtGuard)
-@UseInterceptors(CacheInterceptor)
 @Controller('products')
 export class ProductController {
     constructor(
@@ -23,9 +23,7 @@ export class ProductController {
     ) {}
 
     @Get(':id')
-    @CacheKey('offApiCalls')
-    @CacheTTL(300)
-    getProductById(@Param('id', ParseIntPipe) id: number): Observable<any> {
+    async getProductById(@Param('id', ParseIntPipe) id: number): Promise<any> {
         return this.productService.getProductData(id);
     }
 }

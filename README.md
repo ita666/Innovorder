@@ -81,32 +81,32 @@ Returns the information about the current user
 ```
 GET users/me    JWT-PROTECTED
 ```
-Returns the information about the user corresponding to the '@id' param
+Returns the information about the user corresponding to the 'id' param
 
-**@Param - id: string**
 ```
+@Param - id: string
 GET users/:id   JWT-PROTECTED
 ```
-Updates the User corresponding to the '@id' param
+Updates the User corresponding to the 'id' param
 
-**@Param - id: string**
-
-**@Body: EditUserDto**
 ```
+@Param - id: string
+@Body - EditUserDto
+
 PATCH users/:id JWT-PROTECTED
 ```
 
 ### Auth
 _Creates a user in the database and returns a jwt token_
 
-**@Param - dto: AuthDto**
 ```
+@Param - dto: AuthDto
 POST auth/signup
 ```
 _Logs in a user and returns a jwt token if email & password are correct_
 
-**@Param - dto: AuthDto**
 ```
+@Param - dto: AuthDto
 POST auth/login
 ```
 
