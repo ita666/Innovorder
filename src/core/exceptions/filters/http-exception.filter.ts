@@ -1,6 +1,6 @@
 import { ExceptionFilter, Catch, ArgumentsHost, HttpException } from '@nestjs/common';
 import { Request, Response } from 'express';
-import {LoggingService} from "../../utils/logging/logging.service";
+import {LoggingService} from "../../../utils/logging/logging.service";
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {

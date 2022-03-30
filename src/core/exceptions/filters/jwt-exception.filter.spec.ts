@@ -1,13 +1,8 @@
-import {
-    Test,
-    TestingModule
-} from '@nestjs/testing';
-import {
-    HttpStatus,
-    HttpException, ArgumentsHost
-} from '@nestjs/common';
-import {HttpExceptionFilter} from "./http-exception.filter";
-import {LoggingService} from "../../utils/logging/logging.service";
+import {Test, TestingModule} from '@nestjs/testing';
+import {HttpStatus, ArgumentsHost} from '@nestjs/common';
+import {JwtExceptionFilter} from "./jwt-exception.filter";
+import {LoggingService} from "../../../utils/logging/logging.service";
+import {JsonWebTokenError} from "jsonwebtoken";
 
 
 const mockLoggerService = {
@@ -41,43 +36,43 @@ const mockArgumentsHost: ArgumentsHost = {
     switchToWs: jest.fn()
 };
 
-describe('Http exception filter service', () => {
-    let service: HttpExceptionFilter;
+describe('Jwt exception filter service', () => {
+    let service: JwtExceptionFilter;
 
     beforeEach(async () => {
         jest.clearAllMocks();
         const module: TestingModule = await Test.createTestingModule({
             providers: [
-                HttpExceptionFilter,
+                JwtExceptionFilter,
                 {
                     provide: LoggingService,
                     useValue: mockLoggerService
                 },
             ]
         }).compile();
-        service = module.get<HttpExceptionFilter>(HttpExceptionFilter);
+        service = module.get<JwtExceptionFilter>(JwtExceptionFilter);
     });
 
-    describe('Http exception filter', () => {
+    describe('Jwt exception filter', () => {
 
         it('should be defined', () => {
             expect(service).toBeDefined();
         });
 
         describe('Catch method', () => {
-            it('should catch and log Http exception', () => {
+            it('should catch and log the exception with Unauthorized status', () => {
                 service.catch(
-                    new HttpException('Http exception', HttpStatus.BAD_REQUEST),
+                    new JsonWebTokenError('Jwt exception'),
                     mockArgumentsHost
                 );
                 expect(mockLoggerService.error).toHaveBeenCalled();
-                expect(mockLoggerService.error).toHaveBeenCalledWith('Http exception');
+                expect(mockLoggerService.error).toHaveBeenCalledWith('Jwt exception');
                 expect(mockHttpArgumentsHost).toBeCalledTimes(1);
                 expect(mockHttpArgumentsHost).toBeCalledWith();
                 expect(mockGetResponse).toBeCalledTimes(1);
                 expect(mockGetResponse).toBeCalledWith();
                 expect(mockStatus).toBeCalledTimes(1);
-                expect(mockStatus).toBeCalledWith(HttpStatus.BAD_REQUEST);
+                expect(mockStatus).toBeCalledWith(HttpStatus.UNAUTHORIZED);
                 expect(mockJson).toBeCalledTimes(1);
             });
         });

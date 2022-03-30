@@ -4,10 +4,10 @@ import {
 } from '@nestjs/testing';
 import {
     HttpStatus,
-    ArgumentsHost, ForbiddenException
+    HttpException, ArgumentsHost
 } from '@nestjs/common';
-import {ForbiddenExceptionFilter} from "./forbidden-exception.filter";
-import {LoggingService} from "../../utils/logging/logging.service";
+import {HttpExceptionFilter} from "./http-exception.filter";
+import {LoggingService} from "../../../utils/logging/logging.service";
 
 
 const mockLoggerService = {
@@ -41,21 +41,21 @@ const mockArgumentsHost: ArgumentsHost = {
     switchToWs: jest.fn()
 };
 
-describe('Forbidden exception filter service', () => {
-    let service: ForbiddenExceptionFilter;
+describe('Http exception filter service', () => {
+    let service: HttpExceptionFilter;
 
-    beforeEach(async (): Promise<void> => {
+    beforeEach(async () => {
         jest.clearAllMocks();
         const module: TestingModule = await Test.createTestingModule({
             providers: [
-                ForbiddenExceptionFilter,
+                HttpExceptionFilter,
                 {
                     provide: LoggingService,
                     useValue: mockLoggerService
                 },
             ]
         }).compile();
-        service = module.get<ForbiddenExceptionFilter>(ForbiddenExceptionFilter);
+        service = module.get<HttpExceptionFilter>(HttpExceptionFilter);
     });
 
     describe('Http exception filter', () => {
@@ -65,19 +65,19 @@ describe('Forbidden exception filter service', () => {
         });
 
         describe('Catch method', () => {
-            it('should catch and log forbidden exception', () => {
+            it('should catch and log Http exception', () => {
                 service.catch(
-                    new ForbiddenException('forbidden exception'),
+                    new HttpException('Http exception', HttpStatus.BAD_REQUEST),
                     mockArgumentsHost
                 );
                 expect(mockLoggerService.error).toHaveBeenCalled();
-                expect(mockLoggerService.error).toHaveBeenCalledWith('forbidden exception');
+                expect(mockLoggerService.error).toHaveBeenCalledWith('Http exception');
                 expect(mockHttpArgumentsHost).toBeCalledTimes(1);
                 expect(mockHttpArgumentsHost).toBeCalledWith();
                 expect(mockGetResponse).toBeCalledTimes(1);
                 expect(mockGetResponse).toBeCalledWith();
                 expect(mockStatus).toBeCalledTimes(1);
-                expect(mockStatus).toBeCalledWith(HttpStatus.FORBIDDEN);
+                expect(mockStatus).toBeCalledWith(HttpStatus.BAD_REQUEST);
                 expect(mockJson).toBeCalledTimes(1);
             });
         });

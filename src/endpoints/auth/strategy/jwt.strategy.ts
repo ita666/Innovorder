@@ -2,9 +2,9 @@ import {ExtractJwt, Strategy} from 'passport-jwt';
 import {PassportStrategy} from '@nestjs/passport';
 import {Injectable} from '@nestjs/common';
 import {ConfigService} from "@nestjs/config";
-import {PrismaService} from "../../prisma/prisma.service";
+import {PrismaService} from "../../../core/prisma/prisma.service";
 import {User} from "@prisma/client";
-import {NO_LONGER_EXISTING_JWT_USER_ERROR_MESSAGE} from "../../exceptions/error-messages";
+import {NO_LONGER_EXISTING_JWT_USER_ERROR_MESSAGE} from "../../../core/exceptions/error-messages";
 import {JsonWebTokenError} from "jsonwebtoken";
 
 

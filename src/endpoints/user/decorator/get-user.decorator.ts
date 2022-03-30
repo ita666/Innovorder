@@ -4,7 +4,7 @@ import {
     ForbiddenException
 } from '@nestjs/common';
 import {User} from "@prisma/client";
-import {NON_EXISTING_USER_ERROR_MESSAGE} from "../../exceptions/error-messages";
+import {NON_EXISTING_USER_ERROR_MESSAGE} from "../../../core/exceptions/error-messages";
 
 export const GetUser = createParamDecorator(
     (data: string, ctx: ExecutionContext): User | any => {

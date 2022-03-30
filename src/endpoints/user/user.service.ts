@@ -1,9 +1,9 @@
 import {ForbiddenException, Injectable} from '@nestjs/common';
-import {PrismaService} from "../prisma/prisma.service";
+import {PrismaService} from "../../core/prisma/prisma.service";
 import {User} from "@prisma/client";
 import {AuthService} from "../auth/auth.service";
 import {UpdatedUserDto, EditUserDto} from "./dto";
-import {NON_EXISTING_USER_ERROR_MESSAGE} from "../exceptions/error-messages";
+import {NON_EXISTING_USER_ERROR_MESSAGE} from "../../core/exceptions/error-messages";
 
 @Injectable()
 export class UserService {

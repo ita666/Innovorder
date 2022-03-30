@@ -4,15 +4,10 @@ import {
 } from '@nestjs/testing';
 import {
     HttpStatus,
-    ArgumentsHost
+    ArgumentsHost, ForbiddenException
 } from '@nestjs/common';
-import {
-    PrismaExceptionFilter,
-    UNIQUE_CONSTRAINT_FAILURE_CODE
-} from "./prisma-exception.filter";
-import {LoggingService} from "../../utils/logging/logging.service";
-import {PrismaClientKnownRequestError} from "@prisma/client/runtime";
-import {CREDENTIALS_TAKEN_ERROR_MESSAGE} from "../error-messages";
+import {ForbiddenExceptionFilter} from "./forbidden-exception.filter";
+import {LoggingService} from "../../../utils/logging/logging.service";
 
 
 const mockLoggerService = {
@@ -46,38 +41,37 @@ const mockArgumentsHost: ArgumentsHost = {
     switchToWs: jest.fn()
 };
 
-describe('Jwt exception filter service', () => {
-    let service: PrismaExceptionFilter;
+describe('Forbidden exception filter service', () => {
+    let service: ForbiddenExceptionFilter;
 
-    beforeEach(async () => {
+    beforeEach(async (): Promise<void> => {
         jest.clearAllMocks();
         const module: TestingModule = await Test.createTestingModule({
             providers: [
-                PrismaExceptionFilter,
+                ForbiddenExceptionFilter,
                 {
                     provide: LoggingService,
                     useValue: mockLoggerService
                 },
             ]
         }).compile();
-        service = module.get<PrismaExceptionFilter>(PrismaExceptionFilter);
+        service = module.get<ForbiddenExceptionFilter>(ForbiddenExceptionFilter);
     });
 
-    describe('Prisma exception filter tests', () => {
+    describe('Http exception filter', () => {
 
         it('should be defined', () => {
             expect(service).toBeDefined();
         });
 
         describe('Catch method', () => {
-            it(`should catch and log the exception with forbidden status in case of 
-        unique constraing violation`, () => {
+            it('should catch and log forbidden exception', () => {
                 service.catch(
-                    new PrismaClientKnownRequestError('Prisma exception', UNIQUE_CONSTRAINT_FAILURE_CODE, ''),
+                    new ForbiddenException('forbidden exception'),
                     mockArgumentsHost
                 );
                 expect(mockLoggerService.error).toHaveBeenCalled();
-                expect(mockLoggerService.error).toHaveBeenCalledWith(CREDENTIALS_TAKEN_ERROR_MESSAGE);
+                expect(mockLoggerService.error).toHaveBeenCalledWith('forbidden exception');
                 expect(mockHttpArgumentsHost).toBeCalledTimes(1);
                 expect(mockHttpArgumentsHost).toBeCalledWith();
                 expect(mockGetResponse).toBeCalledTimes(1);

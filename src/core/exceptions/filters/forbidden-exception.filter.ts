@@ -5,7 +5,7 @@ import {
     ForbiddenException
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import {LoggingService} from "../../utils/logging/logging.service";
+import {LoggingService} from "../../../utils/logging/logging.service";
 
 @Catch(ForbiddenException)
 export class ForbiddenExceptionFilter implements ExceptionFilter {

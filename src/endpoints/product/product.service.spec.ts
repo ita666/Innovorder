@@ -5,7 +5,7 @@ import {of} from "rxjs";
 import {CacheModule} from "@nestjs/common";
 import {
   ProductNotFoundException
-} from "../exceptions/custom-exceptions/ProductNotFound.exception";
+} from "../../core/exceptions/custom-exceptions/ProductNotFound.exception";
 
 describe('ProductService', () => {
   let service: ProductService;

@@ -1,5 +1,5 @@
 import {Test, TestingModule} from "@nestjs/testing";
-import {LoggingService} from "../utils/logging/logging.service";
+import {LoggingService} from "../../utils/logging/logging.service";
 import {
     OpenFoodFactsBenchmarkInterceptor
 } from "./openfoodfacts-benchmark.interceptor";

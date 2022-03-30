@@ -2,7 +2,7 @@ import {CACHE_MANAGER, Inject, Injectable} from '@nestjs/common';
 import {HttpService} from "@nestjs/axios";
 import {firstValueFrom} from "rxjs";
 import {Cache} from "cache-manager";
-import {ProductNotFoundException} from "../exceptions/custom-exceptions/ProductNotFound.exception";
+import {ProductNotFoundException} from "../../core/exceptions/custom-exceptions/ProductNotFound.exception";
 
 @Injectable()
 export class ProductService {

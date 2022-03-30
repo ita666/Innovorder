@@ -6,11 +6,11 @@ import pactum from 'pactum';
 import {
     ForbiddenExceptionFilter,
     HttpExceptionFilter, JwtExceptionFilter, PrismaExceptionFilter
-} from "../src/exceptions/filters";
-import {PrismaService} from "../src/prisma/prisma.service";
+} from "../src/core/exceptions/filters";
+import {PrismaService} from "../src/core/prisma/prisma.service";
 import {ConfigModule} from "@nestjs/config";
 import {User} from "@prisma/client";
-import {AuthDto} from "../src/auth/dto";
+import {AuthDto} from "../src/endpoints/auth/dto";
 
 describe('AppController (e2e)', () => {
     let app: INestApplication;

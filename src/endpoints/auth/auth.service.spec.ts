@@ -2,12 +2,12 @@ import {Test, TestingModule} from '@nestjs/testing';
 import {AuthService} from './auth.service';
 import {AuthDto, LogInDto} from "./dto";
 import Argon2, {hash, verify} from "argon2";
-import {PrismaService} from "../prisma/prisma.service";
+import {PrismaService} from "../../core/prisma/prisma.service";
 import {JwtService} from "@nestjs/jwt";
 import {ConfigService} from "@nestjs/config";
 import {User} from "@prisma/client";
 import {ForbiddenException} from "@nestjs/common";
-import {BAD_CREDENTIALS_ERROR_MESSAGE} from "../exceptions/error-messages";
+import {BAD_CREDENTIALS_ERROR_MESSAGE} from "../../core/exceptions/error-messages";
 
 describe('AuthService', () => {
     let service: AuthService;

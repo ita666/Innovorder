@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserService } from './user.service';
 import {AuthService} from "../auth/auth.service";
-import {PrismaService} from "../prisma/prisma.service";
+import {PrismaService} from "../../core/prisma/prisma.service";
 import {User} from "@prisma/client";
 import {ForbiddenException} from "@nestjs/common";
-import {NON_EXISTING_USER_ERROR_MESSAGE} from "../exceptions/error-messages";
+import {NON_EXISTING_USER_ERROR_MESSAGE} from "../../core/exceptions/error-messages";
 import {EditUserDto, UpdatedUserDto} from "./dto";
 
 describe('UserService', () => {

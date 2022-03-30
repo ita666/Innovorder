@@ -1,8 +1,18 @@
-import {Test, TestingModule} from '@nestjs/testing';
-import {HttpStatus, ArgumentsHost} from '@nestjs/common';
-import {JwtExceptionFilter} from "./jwt-exception.filter";
-import {LoggingService} from "../../utils/logging/logging.service";
-import {JsonWebTokenError} from "jsonwebtoken";
+import {
+    Test,
+    TestingModule
+} from '@nestjs/testing';
+import {
+    HttpStatus,
+    ArgumentsHost
+} from '@nestjs/common';
+import {
+    PrismaExceptionFilter,
+    UNIQUE_CONSTRAINT_FAILURE_CODE
+} from "./prisma-exception.filter";
+import {LoggingService} from "../../../utils/logging/logging.service";
+import {PrismaClientKnownRequestError} from "@prisma/client/runtime";
+import {CREDENTIALS_TAKEN_ERROR_MESSAGE} from "../error-messages";
 
 
 const mockLoggerService = {
@@ -37,42 +47,43 @@ const mockArgumentsHost: ArgumentsHost = {
 };
 
 describe('Jwt exception filter service', () => {
-    let service: JwtExceptionFilter;
+    let service: PrismaExceptionFilter;
 
     beforeEach(async () => {
         jest.clearAllMocks();
         const module: TestingModule = await Test.createTestingModule({
             providers: [
-                JwtExceptionFilter,
+                PrismaExceptionFilter,
                 {
                     provide: LoggingService,
                     useValue: mockLoggerService
                 },
             ]
         }).compile();
-        service = module.get<JwtExceptionFilter>(JwtExceptionFilter);
+        service = module.get<PrismaExceptionFilter>(PrismaExceptionFilter);
     });
 
-    describe('Jwt exception filter', () => {
+    describe('Prisma exception filter tests', () => {
 
         it('should be defined', () => {
             expect(service).toBeDefined();
         });
 
         describe('Catch method', () => {
-            it('should catch and log the exception with Unauthorized status', () => {
+            it(`should catch and log the exception with forbidden status in case of 
+        unique constraing violation`, () => {
                 service.catch(
-                    new JsonWebTokenError('Jwt exception'),
+                    new PrismaClientKnownRequestError('Prisma exception', UNIQUE_CONSTRAINT_FAILURE_CODE, ''),
                     mockArgumentsHost
                 );
                 expect(mockLoggerService.error).toHaveBeenCalled();
-                expect(mockLoggerService.error).toHaveBeenCalledWith('Jwt exception');
+                expect(mockLoggerService.error).toHaveBeenCalledWith(CREDENTIALS_TAKEN_ERROR_MESSAGE);
                 expect(mockHttpArgumentsHost).toBeCalledTimes(1);
                 expect(mockHttpArgumentsHost).toBeCalledWith();
                 expect(mockGetResponse).toBeCalledTimes(1);
                 expect(mockGetResponse).toBeCalledWith();
                 expect(mockStatus).toBeCalledTimes(1);
-                expect(mockStatus).toBeCalledWith(HttpStatus.UNAUTHORIZED);
+                expect(mockStatus).toBeCalledWith(HttpStatus.FORBIDDEN);
                 expect(mockJson).toBeCalledTimes(1);
             });
         });

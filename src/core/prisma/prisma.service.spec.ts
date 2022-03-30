@@ -6,7 +6,7 @@ describe('PrismaService', () => {
   let service: PrismaService;
 
   const mockConfig = {
-    get: jest.fn().mockImplementation(jwtKey => {
+    get: jest.fn().mockImplementation((jwtKey) => {
       return 'database_url';
     })
   };

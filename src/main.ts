@@ -4,11 +4,11 @@ import {ValidationPipe} from "@nestjs/common";
 import {
   ForbiddenExceptionFilter,
   HttpExceptionFilter
-} from "./exceptions/filters";
+} from "./core/exceptions/filters";
 import {
   PrismaExceptionFilter,
   JwtExceptionFilter
-} from "./exceptions/filters";
+} from "./core/exceptions/filters";
 import {LoggingService} from "./utils/logging/logging.service";
 import helmet from "helmet";
 

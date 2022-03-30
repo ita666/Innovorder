@@ -5,7 +5,7 @@ import {
     HttpStatus
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import {LoggingService} from "../../utils/logging/logging.service";
+import {LoggingService} from "../../../utils/logging/logging.service";
 import {JsonWebTokenError} from "jsonwebtoken";
 import {INVALID_TOKEN_ERROR_MESSAGE} from "../error-messages";
 

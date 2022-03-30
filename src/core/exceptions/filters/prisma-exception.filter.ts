@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import {PrismaClientKnownRequestError} from "@prisma/client/runtime";
-import {LoggingService} from "../../utils/logging/logging.service";
+import {LoggingService} from "../../../utils/logging/logging.service";
 import {
     CREDENTIALS_TAKEN_ERROR_MESSAGE,
     DATABASE_ERROR_MESSAGE
