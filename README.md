@@ -33,7 +33,7 @@ $ npm run prisma:migrate
 
 Then deploy the database for development or test purposes
 ```bash
-$ npm run prisma:migrate:deploy:dev     or    npm run prisma:migrate:deploy:test
+$ npm run prisma:deploy:dev     or    npm run prisma:deploy:test
 ```
 
 ## Running the app
