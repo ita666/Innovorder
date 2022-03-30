@@ -64,7 +64,7 @@ Please find them below with example values
 
 These variables should be set in a '.env' file at the source of the project, and in a '.env.test' file for test-related environment variables
 
-```json
+```dotenv
 DATABASE_URL="mysql://<user>:<password>@localhost:3306/innovorder"
 
 JWT_KEY="secret-key"
